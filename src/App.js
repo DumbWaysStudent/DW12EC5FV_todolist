@@ -16,14 +16,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 import LinearGradient from 'react-native-linear-gradient';
 
 const App: () => React$Node = () => {
