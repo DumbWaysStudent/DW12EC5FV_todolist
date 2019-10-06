@@ -6,28 +6,14 @@
  * @flow
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import React, { Component } from 'react';
+import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-const App: () => React$Node = () => {
-  let listToDo = [
+class TaskOne extends Component {
+
+  listToDo = [
     'work',
     'swim',
     'study',
@@ -35,24 +21,26 @@ const App: () => React$Node = () => {
     'run'
   ]
 
-  return(
-    <View style={styles.container}>
-      <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
-      <View>
-      {listToDo.map((el, index)=>{
-        return(
-          <View style={[styles.borderBtm]}>
-            <Text key={index}>{el}</Text>
-          </View>
-        )
-      })}
+  render(){
+    return(
+      <View style={styles.container}>
+        <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
+        <View>
+        {this.listToDo.map((el, index)=>{
+          return(
+            <View style={[styles.borderBtm]}>
+              <Text key={index}>{el}</Text>
+            </View>
+          )
+        })}
+        <Button onPress={this.onPressSubmit} title="Test"></Button>
+        </View>
+        </LinearGradient>
       </View>
-      </LinearGradient>
-    </View>
-  )
-};
-
-export default App;
+    )
+  }
+}
+export default TaskOne;
 
 const styles = StyleSheet.create(
   {
