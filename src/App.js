@@ -25,15 +25,15 @@ class TaskOne extends Component {
     return(
       <View style={styles.container}>
         <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
-        <View>
-        {this.listToDo.map((el, index)=>{
-          return(
-            <View style={[styles.borderBtm]}>
-              <Text key={index}>{el}</Text>
-            </View>
-          )
-        })}
-        </View>
+          <View>
+            {this.listToDo.map((el, index)=>{
+              return(
+                <View style={[styles.borderBtm]}>
+                  <Text key={index}>{el}</Text>
+                </View>
+              )
+            })}
+          </View>
         </LinearGradient>
       </View>
     )
