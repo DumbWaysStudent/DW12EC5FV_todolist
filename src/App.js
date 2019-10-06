@@ -16,7 +16,7 @@ class TaskOne extends Component {
   constructor(){
     super();
     this.state = {
-      placeHoler : "Test",
+      placeHolder : "",
       listToDo : [
         'work',
         'swim',
@@ -27,36 +27,38 @@ class TaskOne extends Component {
     }
   }
 
-  // listToDo = [
-    // 'work',
-    // 'swim',
-    // 'study',
-    // 'sleep',
-    // 'run'
-  // ]
-
   addOnClick = () => {
-    this.state.listToDo.push("alpha");
-    alert(this.state.listToDo.toString())
+    this.state.listToDo.push(this.state.placeHolder);
+    this.setState({
+      listToDo : this.state.listToDo,
+      placeHolder :"",
+    })
+  }
+
+  handleTextInput = (text) => {
+    this.setState({
+      placeHolder : text
+    })
   }
 
   listItem = () => {
     return this.state.listToDo.map((el, index) => {
-      return <Text key={index} >{el}</Text>
+      return <Text key={index} style={[styles.borderBtm, styles.textContent]}>{el}</Text>
     })
   }
-
   
   render(){
     return(
       <View style={styles.container}>
         <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
           <View style={styles.inputFeald}>
-            <TextInput style={styles.inputBar}></TextInput>
-            <Button title="add" style={styles.Btn}></Button>
+            <TextInput style={styles.inputBar} onChangeText={this.handleTextInput} value={this.state.placeHolder}></TextInput>
+            <Button title="add" style={styles.Btn} onPress={this.addOnClick}></Button>
           </View>
           <View style={styles.content}>
-            <this.listItem />
+            <View>
+              <this.listItem />
+            </View>
           </View>
         </LinearGradient>
       </View>
@@ -70,6 +72,7 @@ const styles = StyleSheet.create(
     container : {
       flex : 1,
     },
+
     borderBtm : {
       borderBottomColor : 'black',
       borderBottomWidth : 2,
@@ -77,16 +80,20 @@ const styles = StyleSheet.create(
       marginBottom: 5,
     },
 
-    content : {
-      flex : 17,
-      marginTop : 10,
+    textContent : {
+      fontSize : 18,
       marginLeft : 10,
+    },
+
+    content : {
+      flex : 14,
     },
 
     inputFeald : {
       flex : 1,
       flexDirection : "row",
-      margin : 5,
+      marginVertical : 15,
+      marginHorizontal : 10,
       alignItems : "center",
       justifyContent : "center",
     },
@@ -97,9 +104,10 @@ const styles = StyleSheet.create(
 
     inputBar : {
       flex : 5,
+      height : 40,
       borderStyle : "solid",
       borderWidth : 1,
-      marginRight : 3,
+      marginRight : 10,
     }
   }
 )
