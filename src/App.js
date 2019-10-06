@@ -33,7 +33,6 @@ class TaskOne extends Component {
             </View>
           )
         })}
-        <Button onPress={this.onPressSubmit} title="Test"></Button>
         </View>
         </LinearGradient>
       </View>
