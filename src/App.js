@@ -17,28 +17,37 @@ class TaskOne extends Component {
     super();
     this.state = {
       placeHolder : "",
-      buttonState : "Add",
-      indexEdit : '',
-      isDone : [
-
-      ],
-      listToDo : [
-
-      ]
+      buttonState : 'Add',
+      listToDo : [{
+        name : 'work',
+        isDone : false
+      }, {
+        name : 'swim',
+        isDone : false
+      }, {
+        name : 'study',
+        isDone : false
+      }, {
+        name : 'sleep',
+        isDone : false
+      }, {
+        name : 'run',
+        isDone : false
+      }]
     }
   }
-
+  
   // Fungsi Di bawah ini digunakan untuk menambahkan text kedalam list listTodo
   // setState digunakan agar render() kembali berjalan
   addOnClick = () => {
-    this.state.listToDo.push(this.state.placeHolder)
-    this.state.isDone.push(false)
+    const obj = {}
+    obj['name'] = this.state.placeHolder
+    obj['isDone'] = false
+    this.state.listToDo.push(obj)
     this.setState({
       listToDo : this.state.listToDo,
-      isDone : this.state.isDone,
       placeHolder :"",
     })
-    {console.log(this.randomKey())}
   }
 
   // Fungsi di bawah akan merubahan state placeHolder sesuai ketikan user
@@ -52,17 +61,15 @@ class TaskOne extends Component {
   // yang di passing saat map
   handleDeletIcon = (index) => {
     this.state.listToDo.splice(index, 1)
-    this.state.isDone.splice(index, 1)
     this.setState({
       listToDo : this.state.listToDo,
-      isDone : this.state.isDone
     })
   }
 
   // Fungs ini bawah ini digunakan untuk merubah state dari checkbox dimana akan digunakan oleh value checkbox
   handleCheckBox = (index) => {
-    const checkedBox = this.state.isDone
-    checkedBox[index] ? checkedBox.splice(index, 1, false) : checkedBox.splice(index, 1, true)
+    const checkedBox = this.state.listToDo
+    checkedBox[index].isDone ? checkedBox[index].isDone = false : checkedBox[index].isDone = true
 
     this.setState({
       isDone : checkedBox
@@ -75,13 +82,13 @@ class TaskOne extends Component {
     this.setState({
       buttonState : "UPDATE",
       indexEdit : index,
-      placeHolder : this.state.listToDo[index]
+      placeHolder : this.state.listToDo[index].name
     })
   }
 
   // digunakan untuk merubah state listToDo berdasarkan index yang sudah kita tentukan
   editButton = () => {
-    this.state.listToDo.splice(Number(this.state.indexEdit), 1, this.state.placeHolder)
+    this.state.listToDo[Number(this.state.indexEdit)].name = this.state.placeHolder
     this.setState({
       listToDo : this.state.listToDo,
       buttonState : "Add",
@@ -99,25 +106,23 @@ class TaskOne extends Component {
     return generateText
   }
 
-  // Fungsi di bawah digunakan untuk mereturn component <View>, <Text> dan <FontAwsome5> dimana <Text> berisi element array dengan map
-  // Untuk Trash icon di berikan logika agar saat update tidak dapat di klik, karna kondisinya delet berdasarkan index
-  // dan update juga berdasarkan index, jika ada yang di hapus saat di lakukan update maka akan menyebabkan file yg kita update buan file yg seharusnya
-  listItem = () => {
-    return this.state.listToDo.map((el, idx) => {
-      return (
-        <View style={[styles.borderBtm, styles.textContent]}>
-          <View style={{flexDirection : "row", padding : 3}}>
-            <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
-            <Text key={this.randomKey} style={styles.textSize}>{el}</Text>
+    // Fungsi di bawah digunakan untuk mereturn component <View>, <Text> dan <FontAwsome5> dimana <Text> berisi element array dengan map
+    listItem = () => {
+      return this.state.listToDo.map((el, idx) => {
+        return (
+          <View style={[styles.borderBtm, styles.textContent]}>
+            <View style={{flexDirection : "row",}}>
+              <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.listToDo[idx].isDone}></CheckBox>
+              <Text key={idx} style={styles.textSize}>{el.name}</Text>
+            </View>
+            <View style={{flexDirection : "row", alignItems : 'center'}}>
+              <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 10}} />
+              <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}/>
+            </View>
           </View>
-          <View style={{flexDirection : "row", marginTop : 5, }}>
-            <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 10}} />
-            <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}/>
-          </View>
-        </View>
-        )
-    })
-  }
+          )
+      })
+    }
   
   render(){
     return(
