@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Button, TextInput, Image} from 'react-native';
+import {View, Text, StyleSheet, Button, TextInput, CheckBox} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -17,6 +17,13 @@ class TaskOne extends Component {
     super();
     this.state = {
       placeHolder : "",
+      isDone : [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
       listToDo : [
         'work',
         'swim',
@@ -30,9 +37,11 @@ class TaskOne extends Component {
   // Fungsi Di bawah ini digunakan untuk menambahkan text kedalam list listTodo
   // setState digunakan agar render() kembali berjalan
   addOnClick = () => {
-    this.state.listToDo.push(this.state.placeHolder);
+    this.state.listToDo.push(this.state.placeHolder)
+    this.state.isDone.push(false)
     this.setState({
       listToDo : this.state.listToDo,
+      isDone : this.state.isDone,
       placeHolder :"",
     })
   }
@@ -48,18 +57,33 @@ class TaskOne extends Component {
   // yang di passing saat map
   handleDeletIcon = (index) => {
     this.state.listToDo.splice(index, 1)
+    this.state.isDone.splice(index, 1)
     this.setState({
-      listToDo : this.state.listToDo
+      listToDo : this.state.listToDo,
+      isDone : this.state.isDone
     })
   }
 
-  // Fungsi di bawah digunakan untuk mereturn component <Text> dengan map
+  // Fungs ini bawah ini digunakan untuk merubah state dari checkbox dimana akan digunakan oleh value checkbox
+  handleCheckBox = (index) => {
+    const checkedBox = this.state.isDone
+    checkedBox[index] ? checkedBox.splice(index, 1, false) : checkedBox.splice(index, 1, true)
+
+    this.setState({
+      isDone : checkedBox
+    })
+  }
+
+  // Fungsi di bawah digunakan untuk mereturn component <View>, <Text> dan <FontAwsome5> dimana <Text> berisi element array dengan map
   listItem = () => {
     return this.state.listToDo.map((el, idx) => {
       return (
         <View style={[styles.borderBtm, styles.textContent]}>
-        <Text key={idx} style={styles.textSize}>{el}</Text>
-        <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={() => this.handleDeletIcon(idx)}/>
+          <View style={{flexDirection : "row",}}>
+            <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
+            <Text key={idx} style={styles.textSize}>{el}</Text>
+          </View>
+          <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={() => this.handleDeletIcon(idx)}/>
         </View>
         )
     })
@@ -129,6 +153,10 @@ const styles = StyleSheet.create(
       borderStyle : "solid",
       borderWidth : 1,
       marginRight : 10,
+    },
+
+    done : {
+      color : 'grey'
     }
   }
 )
