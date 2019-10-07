@@ -46,6 +46,7 @@ class TaskOne extends Component {
       isDone : this.state.isDone,
       placeHolder :"",
     })
+    {console.log(this.randomKey())}
   }
 
   // Fungsi di bawah akan merubahan state placeHolder sesuai ketikan user
@@ -96,6 +97,16 @@ class TaskOne extends Component {
     })
   }
 
+  randomKey = () => {
+    let generateText = ""
+    let charset = "abcdefghijklmnopqrstuvwxyz0123456789"
+
+    for (var i = 0; i < 4; i++){
+      generateText += charset[Math.floor(Math.random() * charset.length)]
+    }
+    return generateText
+  }
+
   // Fungsi di bawah digunakan untuk mereturn component <View>, <Text> dan <FontAwsome5> dimana <Text> berisi element array dengan map
   // Untuk Trash icon di berikan logika agar saat update tidak dapat di klik, karna kondisinya delet berdasarkan index
   // dan update juga berdasarkan index, jika ada yang di hapus saat di lakukan update maka akan menyebabkan file yg kita update buan file yg seharusnya
@@ -105,7 +116,7 @@ class TaskOne extends Component {
         <View style={[styles.borderBtm, styles.textContent]}>
           <View style={{flexDirection : "row",}}>
             <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
-            <Text key={idx} style={styles.textSize}>{el}</Text>
+            <Text key={this.randomKey} style={styles.textSize}>{el}</Text>
           </View>
           <View style={{flexDirection : "row",}}>
             <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 5}} />
@@ -121,8 +132,8 @@ class TaskOne extends Component {
       <View style={styles.container}>
         <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
           <View style={styles.inputFeald}>
-            <TextInput style={styles.inputBar} onChangeText={this.handleTextInput} value={this.state.placeHolder}></TextInput>
-            <Button title={this.state.buttonState} style={styles.Btn} onPress={this.state.buttonState == 'Add' ? this.addOnClick : this.editButton}></Button>
+            <TextInput style={styles.inputBar} onChangeText={this.handleTextInput} value={this.state.placeHolder} placeholder={"Type Here ..."}></TextInput>
+            <Button title={this.state.buttonState} style={styles.inputBtn} onPress={this.state.buttonState == 'Add' ? this.addOnClick : this.editButton}></Button>
           </View>
           <View style={styles.content}>
               <this.listItem />
@@ -162,23 +173,31 @@ const styles = StyleSheet.create(
     },
 
     inputFeald : {
-      flex : 1,
+      backgroundColor : '#EAECC6',
+
+      alignSelf: 'flex-start',
       flexDirection : "row",
       marginVertical : 15,
       marginHorizontal : 10,
       alignItems : "center",
-      justifyContent : "center",
+      borderStyle : "solid",
+      borderWidth : 1,
+      borderRadius : 90,
+      paddingRight : 15,
+      paddingLeft : 10,
+      paddingVertical  : 5,
+      height : 45,
     },
 
     inputBtn : {
-      flex : 5,
+      flex : 1,
+      marginLeft : 50,
+      height : 5,
     },
 
     inputBar : {
-      flex : 5,
+      flex: 1,
       height : 40,
-      borderStyle : "solid",
-      borderWidth : 1,
       marginRight : 10,
     },
 
