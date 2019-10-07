@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Button, TextInput, CheckBox} from 'react-native';
+import {View, Text, StyleSheet, Button, TextInput, CheckBox, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -117,8 +117,12 @@ class TaskOne extends Component {
               <Text key={idx} style={styles.textSize}>{el.name}</Text>
             </View>
             <View style={{flexDirection : "row", alignItems : 'center'}}>
-              <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 10}} />
-              <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}/>
+              <TouchableOpacity  onPress={() => this.handleEdit(idx)}>
+                <FontAwesome5 name="pen" size={18} color="#000" style={{marginRight: 10}} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}>
+                <FontAwesome5 name="trash" size={18} color="#f7113b" />
+              </TouchableOpacity>
             </View>
           </View>
           )
