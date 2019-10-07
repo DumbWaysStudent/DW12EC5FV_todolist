@@ -20,18 +20,10 @@ class TaskOne extends Component {
       buttonState : "Add",
       indexEdit : '',
       isDone : [
-        false,
-        false,
-        false,
-        false,
-        false
+
       ],
       listToDo : [
-        'work',
-        'swim',
-        'study',
-        'sleep',
-        'run'
+
       ]
     }
   }
@@ -114,12 +106,12 @@ class TaskOne extends Component {
     return this.state.listToDo.map((el, idx) => {
       return (
         <View style={[styles.borderBtm, styles.textContent]}>
-          <View style={{flexDirection : "row",}}>
+          <View style={{flexDirection : "row", padding : 3}}>
             <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
             <Text key={this.randomKey} style={styles.textSize}>{el}</Text>
           </View>
-          <View style={{flexDirection : "row",}}>
-            <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 5}} />
+          <View style={{flexDirection : "row", marginTop : 5, }}>
+            <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 10}} />
             <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}/>
           </View>
         </View>
@@ -152,20 +144,22 @@ const styles = StyleSheet.create(
     },
 
     borderBtm : {
-      borderBottomColor : 'black',
-      borderBottomWidth : 2,
+      backgroundColor : "#bbd3f2",
+      borderColor : '#b8bbbf',
+      borderWidth : 2,
       borderStyle: 'solid',
-      marginBottom: 5,
+      marginHorizontal : 15,
+      marginVertical : 5,
     },
 
     textContent : {
-      marginHorizontal : 10,
+      padding : 10,
       flexDirection : 'row',
       justifyContent : 'space-between'
     },
 
     textSize : {
-      fontSize : 18,
+      fontSize : 24,
     },
 
     content : {
@@ -174,13 +168,13 @@ const styles = StyleSheet.create(
 
     inputFeald : {
       backgroundColor : '#EAECC6',
-
       alignSelf: 'flex-start',
       flexDirection : "row",
       marginVertical : 15,
       marginHorizontal : 10,
       alignItems : "center",
       borderStyle : "solid",
+      borderColor : "#abbbcf",
       borderWidth : 1,
       borderRadius : 90,
       paddingRight : 15,
