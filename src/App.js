@@ -7,9 +7,9 @@
  */
 
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
-
+import {View, Text, StyleSheet, Button, TextInput, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 class TaskOne extends Component {
 
@@ -27,6 +27,8 @@ class TaskOne extends Component {
     }
   }
 
+  // Fungsi Di bawah ini digunakan untuk menambahkan text kedalam list listTodo
+  // setState digunakan agar render() kembali berjalan
   addOnClick = () => {
     this.state.listToDo.push(this.state.placeHolder);
     this.setState({
@@ -35,15 +37,31 @@ class TaskOne extends Component {
     })
   }
 
+  // Fungsi di bawah akan merubahan state placeHolder sesuai ketikan user
   handleTextInput = (text) => {
     this.setState({
       placeHolder : text
     })
   }
 
+  // Fungsi di bawah digunakan untuk membuat saat icon FontAwesome5 di klik akan mendelet sesuai dengan index
+  // yang di passing saat map
+  handleDeletIcon = (index) => {
+    this.state.listToDo.splice(index, 1)
+    this.setState({
+      listToDo : this.state.listToDo
+    })
+  }
+
+  // Fungsi di bawah digunakan untuk mereturn component <Text> dengan map
   listItem = () => {
-    return this.state.listToDo.map((el, index) => {
-      return <Text key={index} style={[styles.borderBtm, styles.textContent]}>{el}</Text>
+    return this.state.listToDo.map((el, idx) => {
+      return (
+        <View style={[styles.borderBtm, styles.textContent]}>
+        <Text key={idx} style={styles.textSize}>{el}</Text>
+        <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={() => this.handleDeletIcon(idx)}/>
+        </View>
+        )
     })
   }
   
@@ -56,9 +74,7 @@ class TaskOne extends Component {
             <Button title="add" style={styles.Btn} onPress={this.addOnClick}></Button>
           </View>
           <View style={styles.content}>
-            <View>
               <this.listItem />
-            </View>
           </View>
         </LinearGradient>
       </View>
@@ -81,8 +97,13 @@ const styles = StyleSheet.create(
     },
 
     textContent : {
+      marginHorizontal : 10,
+      flexDirection : 'row',
+      justifyContent : 'space-between'
+    },
+
+    textSize : {
       fontSize : 18,
-      marginLeft : 10,
     },
 
     content : {
