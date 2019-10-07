@@ -17,6 +17,8 @@ class TaskOne extends Component {
     super();
     this.state = {
       placeHolder : "",
+      buttonState : "Add",
+      indexEdit : '',
       isDone : [
         false,
         false,
@@ -74,7 +76,29 @@ class TaskOne extends Component {
     })
   }
 
+  // Fungsi yang digunakan saat icon edit di klik, untuk merubah state buttonState yang digunaan sebagai title button
+  // dan di guakan untu kondisional apakah data di add atau di upate
+  handleEdit = (index) => {
+    this.setState({
+      buttonState : "UPDATE",
+      indexEdit : index,
+      placeHolder : this.state.listToDo[index]
+    })
+  }
+
+  // digunakan untuk merubah state listToDo berdasarkan index yang sudah kita tentukan
+  editButton = () => {
+    this.state.listToDo.splice(Number(this.state.indexEdit), 1, this.state.placeHolder)
+    this.setState({
+      listToDo : this.state.listToDo,
+      buttonState : "Add",
+      placeHolder : "",
+    })
+  }
+
   // Fungsi di bawah digunakan untuk mereturn component <View>, <Text> dan <FontAwsome5> dimana <Text> berisi element array dengan map
+  // Untuk Trash icon di berikan logika agar saat update tidak dapat di klik, karna kondisinya delet berdasarkan index
+  // dan update juga berdasarkan index, jika ada yang di hapus saat di lakukan update maka akan menyebabkan file yg kita update buan file yg seharusnya
   listItem = () => {
     return this.state.listToDo.map((el, idx) => {
       return (
@@ -83,7 +107,10 @@ class TaskOne extends Component {
             <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
             <Text key={idx} style={styles.textSize}>{el}</Text>
           </View>
-          <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={() => this.handleDeletIcon(idx)}/>
+          <View style={{flexDirection : "row",}}>
+            <FontAwesome5 name="pen" size={18} color="#000" onPress={() => this.handleEdit(idx)} style={{marginRight: 5}} />
+            <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={this.state.buttonState === 'Add' ? () => this.handleDeletIcon(idx) : null}/>
+          </View>
         </View>
         )
     })
@@ -95,7 +122,7 @@ class TaskOne extends Component {
         <LinearGradient colors={["#EAECC6", "#2BC0E4"]} style={styles.container}>
           <View style={styles.inputFeald}>
             <TextInput style={styles.inputBar} onChangeText={this.handleTextInput} value={this.state.placeHolder}></TextInput>
-            <Button title="add" style={styles.Btn} onPress={this.addOnClick}></Button>
+            <Button title={this.state.buttonState} style={styles.Btn} onPress={this.state.buttonState == 'Add' ? this.addOnClick : this.editButton}></Button>
           </View>
           <View style={styles.content}>
               <this.listItem />
