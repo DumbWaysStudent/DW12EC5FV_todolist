@@ -17,31 +17,34 @@ class TaskOne extends Component {
     super();
     this.state = {
       placeHolder : "",
-      isDone : [
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      listToDo : [
-        'work',
-        'swim',
-        'study',
-        'sleep',
-        'run'
-      ]
+      listToDo : [{
+        name : 'work',
+        isDone : false
+      }, {
+        name : 'swim',
+        isDone : false
+      }, {
+        name : 'study',
+        isDone : false
+      }, {
+        name : 'sleep',
+        isDone : false
+      }, {
+        name : 'run',
+        isDone : false
+      }]
     }
   }
 
   // Fungsi Di bawah ini digunakan untuk menambahkan text kedalam list listTodo
   // setState digunakan agar render() kembali berjalan
   addOnClick = () => {
-    this.state.listToDo.push(this.state.placeHolder)
-    this.state.isDone.push(false)
+    const obj = {}
+    obj['name'] = this.state.placeHolder
+    obj['isDone'] = false
+    this.state.listToDo.push(obj)
     this.setState({
       listToDo : this.state.listToDo,
-      isDone : this.state.isDone,
       placeHolder :"",
     })
   }
@@ -57,17 +60,15 @@ class TaskOne extends Component {
   // yang di passing saat map
   handleDeletIcon = (index) => {
     this.state.listToDo.splice(index, 1)
-    this.state.isDone.splice(index, 1)
     this.setState({
       listToDo : this.state.listToDo,
-      isDone : this.state.isDone
     })
   }
 
   // Fungs ini bawah ini digunakan untuk merubah state dari checkbox dimana akan digunakan oleh value checkbox
   handleCheckBox = (index) => {
-    const checkedBox = this.state.isDone
-    checkedBox[index] ? checkedBox.splice(index, 1, false) : checkedBox.splice(index, 1, true)
+    const checkedBox = this.state.listToDo
+    checkedBox[index].isDone ? checkedBox[index].isDone = false : checkedBox[index].isDone = true
 
     this.setState({
       isDone : checkedBox
@@ -80,8 +81,8 @@ class TaskOne extends Component {
       return (
         <View style={[styles.borderBtm, styles.textContent]}>
           <View style={{flexDirection : "row",}}>
-            <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.isDone[idx]}></CheckBox>
-            <Text key={idx} style={styles.textSize}>{el}</Text>
+            <CheckBox onValueChange={() => this.handleCheckBox(idx)} value={this.state.listToDo[idx].isDone}></CheckBox>
+            <Text key={idx} style={styles.textSize}>{el.name}</Text>
           </View>
           <FontAwesome5 name="trash" size={18} color="#f7113b" onPress={() => this.handleDeletIcon(idx)}/>
         </View>
