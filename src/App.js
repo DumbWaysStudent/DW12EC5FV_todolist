@@ -18,6 +18,7 @@ class TaskOne extends Component {
     this.state = {
       placeHolder : "",
       buttonState : 'Add',
+      indexEdit : "",
       listToDo : [{
         name : 'work',
         isDone : false
